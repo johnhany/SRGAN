@@ -89,11 +89,11 @@ for epoch in range(1, NUM_EPOCHS + 1):
         fake_out = netD(fake_img).mean()
 
         g_loss = generator_criterion(fake_out, fake_img, real_img)
-        running_results['g_loss'] += g_loss.data[0] * batch_size
+        running_results['g_loss'] += g_loss.item() * batch_size
         d_loss = 1 - real_out + fake_out
-        running_results['d_loss'] += d_loss.data[0] * batch_size
-        running_results['d_score'] += real_out.data[0] * batch_size
-        running_results['g_score'] += fake_out.data[0] * batch_size
+        running_results['d_loss'] += d_loss.item() * batch_size
+        running_results['d_score'] += real_out.item() * batch_size
+        running_results['g_score'] += fake_out.item() * batch_size
 
         train_bar.set_description(desc='[%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f' % (
             epoch, NUM_EPOCHS, running_results['d_loss'] / running_results['batch_sizes'],
@@ -120,7 +120,7 @@ for epoch in range(1, NUM_EPOCHS + 1):
 
         batch_mse = ((sr - hr) ** 2).data.mean()
         valing_results['mse'] += batch_mse * batch_size
-        batch_ssim = pytorch_ssim.ssim(sr, hr).data[0]
+        batch_ssim = pytorch_ssim.ssim(sr, hr).item()
         valing_results['ssims'] += batch_ssim * batch_size
         valing_results['psnr'] = 10 * log10(1 / (valing_results['mse'] / valing_results['batch_sizes']))
         valing_results['ssim'] = valing_results['ssims'] / valing_results['batch_sizes']
