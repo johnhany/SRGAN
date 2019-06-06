@@ -22,7 +22,7 @@ class GeneratorLoss(nn.Module):
         # pixel-wise Loss
         pixel_loss = self.mse_loss(out_images, target_images)
         # regularization Loss
-        reg_loss = self.tv_loss(out_images)
+        reg_loss = self.l2_loss(out_images)
         return pixel_loss + 0.001 * adversarial_loss + 0.006 * vgg_loss + 2e-8 * reg_loss
 
 
